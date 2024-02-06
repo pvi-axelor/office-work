@@ -5,3 +5,7 @@ plugins {
 axelor { 
   title = 'Axelor Sales'
 }
+
+dependencies {
+    implementation project(':modules:axelor-contact')
+}

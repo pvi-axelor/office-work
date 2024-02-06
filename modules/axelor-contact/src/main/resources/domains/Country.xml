@@ -4,10 +4,13 @@
   xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
 
-  <module name="sales" package="com.axelor.sales.db"/>
+  <module name="contact" package="com.axelor.contact.db"/>
 
-  <entity name="Categories">
-    <string name="type" required="true" max="255"/>
+  <entity name="Country">
+
+    <string name="name" title="Name" namecolumn="true" required="true" unique="true" min="2"/>
+    <string name="code" title="Code" required="true" unique="true" min="2"/>
+
   </entity>
 
 </domain-models>

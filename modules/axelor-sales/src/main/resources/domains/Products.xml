@@ -8,13 +8,17 @@
 
   <entity name="Products">
 
-    <one-to-many name="categories" ref="Categories" required="true"/>
+    <string name="name" title="Name" required="true" unique="true"/>
+    <string name="code" title="Code" required="true" unique="true"/>
+    <string name="fullName" title="Full Name" namecolumn="true">
+	 	<![CDATA[ return (name == null || code == null) ? "" : "[" + code + "]" + name; ]]>
+    </string>
+    <decimal name="unitPriceUntaxed" title="Unit price untaxed" required="true" min="0"/>
 
-    <string name="pname" required="true"/>
-    <string name="code" required="true"/>
-    <decimal name="price" required="true" min="10"/>
-    <string name="supplier" max="255"/>
-    <string name="manufacturer" max="255"/>
+    <many-to-one ref="ProductCategory" name="productCatergory" title="Product category"
+      required="true"/>
+    <binary name="image" title="Image"/>
+
   </entity>
 
 </domain-models>

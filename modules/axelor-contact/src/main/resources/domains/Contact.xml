@@ -7,30 +7,22 @@
   <module name="contact" package="com.axelor.contact.db"/>
 
   <entity name="Contact">
-    <many-to-one name="title" ref="Title"/>
-    <string name="firstName" required="true"/>
-    <string name="lastName" required="true"/>
 
-    <string name="fullName" namecolumn="true" search="firstName,lastName">
-    <![CDATA[
-    if (firstName == null && lastName == null) {
-        return null;
-    }
-    if (title == null) {
-        return firstName + " " + lastName;
-    }
-    return title.getName() + " " + firstName + " " + lastName;
-    ]]></string>
+    <many-to-one ref="Title" name="title" title="Title" required="true"/>
+    <string name="firstName" title="First Name" required="true"/>
+    <string name="lastName" title="Last Name" required="true"/>
+    <string name="fullName" title="Full Name" required="true" namecolumn="true">
+     <![CDATA[
+    	return (firstName == null || lastName == null || title == null) ? "" : String.format("%s %s %s", title.getCode(), firstName, lastName);
+    ]]>
+    </string>
+    <date name="birthDate" title="Date of birth"/>
+    <string name="email" title="Email"/>
+    <string name="phone" title="Phone Number"/>
+    <binary name="image" title="Profile Picture"/>
+    <boolean name="isSubjectToTaxes" title="Apply taxes" required="false" default="false"/>
+    <many-to-one ref="Address" name="address" title="Address"/>
+    <many-to-many ref="Contact" name="familyContactSet" title="Family members"/>
 
-    <date name="dateOfBirth"/>
-
-    <string name="email" required="true" unique="true" max="100"/>
-    <string name="phone" max="20" massUpdate="true"/>
-    <string name="notes" title="About me" large="true"/>
-
-    <one-to-many name="addresses" ref="Address" mappedBy="contact"/>
-
-    <finder-method name="findByName" using="fullName"/>
-    <finder-method name="findByEmail" using="email"/>
   </entity>
 </domain-models>
