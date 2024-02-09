@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+  <menuitem name="sale-root" title="Sale" icon="fa-line-chart" icon-background="#fac105"/>
+
+  <menuitem name="sale-root-all-sale-orders" parent="sale-root" title="All sale orders"
+    action="action.sale.show.all.sale.order"/>
+  <action-view name="action.sale.show.all.sale.order" title="All sale order"
+    model="com.axelor.sales.db.SaleOrder">
+    <view type="grid" name="sale-order-grid"/>
+    <view type="form" name="sale-order-form"/>
+  </action-view>
+
+  <menuitem name="sale-root-quotation-sale-orders" parent="sale-root"
+    title="Quotation sale orders" tag="0" tag-style="important"
+    action="action.sale.show.quotation.sale.orders"/>
+  <action-view name="action.sale.show.quotation.sale.orders"
+    title="Quotation sale order" model="com.axelor.sales.db.SaleOrder">
+    <!-- <view type="grid" name="quotation-sale-order-grid" /> -->
+    <view type="grid" name="sale-order-grid"/>
+    <view type="form" name="sale-order-form"/>
+    <domain>self.statusSelect = 'quotation'</domain>
+  </action-view>
+
+  <menuitem name="sale-root-configuration" parent="sale-root" title="Configuration"
+    icon="fa-gear"/>
+
+  <menuitem name="sale-root-configuration-product-categories"
+    parent="sale-root-configuration" title="Product categories"
+    action="action.sale.show.product.categories"/>
+  <action-view name="action.sale.show.product.categories" title="Product categories"
+    model="com.axelor.sales.db.ProductCategory">
+    <view type="grid" name="product-category-grid"/>
+    <view type="form" name="product-category-form"/>
+  </action-view>
+
+  <menuitem name="sale-root-configuration-product-categories-tree"
+    parent="sale-root-configuration" title="Product categories tree"/>
+
+  <menuitem name="sale-root-configuration-products" parent="sale-root-configuration"
+    title="Product" action="action.sale.show.products"/>
+  <action-view name="action.sale.show.products" title="Products"
+    model="com.axelor.sales.db.Products">
+    <view type="grid" name="products-grid"/>
+    <view type="form" name="products-form"/>
+  </action-view>
+
+  <menuitem name="sale-root-data" parent="sale-root" title="Data" icon="fa-list"/>
+
+  <menuitem name="sale-root-data-sale-order-lines" parent="sale-root-data"
+    title="Sale order lines" action="action.sale.show.sale.order.line"/>
+  <action-view name="action.sale.show.sale.order.line" title="Sale order line"
+    model="com.axelor.sales.db.SaleOrderLine">
+    <view type="grid" name="sale-order-line-grid"/>
+    <view type="form" name="sale-order-line-form"/>
+    <view-param name="search-filters" value="sale-order-sale-order-line-filter"/>
+  </action-view>
+
+  <search-filters name="sale-order-sale-order-line-filter" title="Sale order lines"
+    model="com.axelor.sales.db.SaleOrder">
+
+    <filter title="Draft Line" name="draft-line">
+      <domain>self.saleOrder.statusSelect = 'draft'</domain>
+    </filter>
+
+    <filter title="Quotation Line" name="quotation-line">
+      <domain>self.saleOrder.statusSelect = 'quotation'</domain>
+    </filter>
+
+    <filter title="Confirmed Line" name="confirmed-line">
+      <domain>self.saleOrder.statusSelect = 'confirmed'</domain>
+    </filter>
+
+    <filter title="Cancelled Line" name="cancelled-line">
+      <domain>self.saleOrder.statusSelect = 'cancelled'</domain>
+    </filter>
+  </search-filters>
+
+</object-views>

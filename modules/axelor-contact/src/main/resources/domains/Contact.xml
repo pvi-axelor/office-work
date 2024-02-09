@@ -13,7 +13,10 @@
     <string name="lastName" title="Last Name" required="true"/>
     <string name="fullName" title="Full Name" required="true" namecolumn="true">
      <![CDATA[
-    	return (firstName == null || lastName == null || title == null) ? "" : String.format("%s %s %s", title.getCode(), firstName, lastName);
+    	if (firstName == null || lastName == null || title == null)
+    		return "";
+    	else
+    		return String.format("[%s] %s %s", title.getCode(), firstName, lastName);
     ]]>
     </string>
     <date name="birthDate" title="Date of birth"/>

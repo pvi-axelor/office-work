@@ -14,11 +14,11 @@
   </enum>
 
 
-  <entity name="SaleOrder">
+  <entity name="SaleOrder" repository="default">
 
     <string name="saleOrderSeq" title="Sequence" namecolumn="true">
   <![CDATA[
-    return (saleOrderSeq != null) ? saleOrderSeq : "SO " + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS"));
+    return (saleOrderSeq != null) ? saleOrderSeq : "SO" + java.time.LocalDateTime.now().format(java.time.format.DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss:SSS"));
 ]]>
 
     </string>
@@ -34,5 +34,6 @@
     <one-to-many ref="SaleOrderLine" name="saleOrderLineList" title="Sale order lines"/>
 
   </entity>
+
 
 </domain-models>

@@ -11,12 +11,15 @@
     <string name="name" title="Name" required="true" unique="true"/>
     <string name="code" title="Code" required="true" unique="true"/>
     <string name="fullName" title="Full Name" namecolumn="true">
-	 	<![CDATA[ return (name == null || code == null) ? "" : "[" + code + "]" + name; ]]>
+	 	<![CDATA[
+	 		if (name == null || code == null)
+	 			return "";
+	 		return "[" + code + "] " + name;
+	 	 ]]>
     </string>
     <decimal name="unitPriceUntaxed" title="Unit price untaxed" required="true" min="0"/>
 
-    <many-to-one ref="ProductCategory" name="productCatergory" title="Product category"
-      required="true"/>
+    <many-to-one ref="ProductCategory" name="productCatergory" title="Product category"/>
     <binary name="image" title="Image"/>
 
   </entity>

@@ -6,6 +6,7 @@
 
   <module name="sales" package="com.axelor.sales.db"/>
 
+
   <entity name="ProductCategory">
 
     <string name="name" title="Name" namecolumn="true" required="true" unique="true" min="2"/>
@@ -13,7 +14,7 @@
     <string name="fullName" title="Full Name" required="true" namecolumn="true">
 	 	<![CDATA[ return (name == null || code == null) ? "" : "[" + code + "]" + name; ]]>
     </string>
-    <integer name="iconSelect" title="Icon" selection="0-Prestation , 1-Product"/>
+    <integer name="iconSelect" title="Icon" selection="sale.product.category.icon.select"/>
 
   </entity>
 
