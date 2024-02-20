@@ -24,8 +24,14 @@
     <string name="phone" title="Phone Number"/>
     <binary name="image" title="Profile Picture"/>
     <boolean name="isSubjectToTaxes" title="Apply taxes" required="false" default="false"/>
-    <many-to-one ref="Address" name="address" title="Address"/>
-    <many-to-many ref="Contact" name="familyContactSet" title="Family members"/>
+    <many-to-one ref="com.axelor.contact.db.Address" name="address" title="Address"/>
+    <many-to-many ref="com.axelor.contact.db.Contact" name="familyContactSet"
+      title="Family members"/>
+
+    <track>
+      <field name="fullName" on="ALWAYS"/>
+      <message if="true" on="ALWAYS"> Record created </message>
+    </track>
 
   </entity>
 </domain-models>

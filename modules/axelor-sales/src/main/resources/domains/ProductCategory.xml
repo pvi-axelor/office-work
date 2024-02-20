@@ -1,21 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models
+	xmlns="http://axelor.com/xml/ns/domain-models"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
 
-  <module name="sales" package="com.axelor.sales.db"/>
+	<module name="sales" package="com.axelor.sales.db" />
 
 
-  <entity name="ProductCategory">
+	<entity name="ProductCategory">
 
-    <string name="name" title="Name" namecolumn="true" required="true" unique="true" min="2"/>
-    <string name="code" title="Code" required="true" unique="true" min="2"/>
-    <string name="fullName" title="Full Name" required="true" namecolumn="true">
-	 	<![CDATA[ return (name == null || code == null) ? "" : "[" + code + "]" + name; ]]>
-    </string>
-    <integer name="iconSelect" title="Icon" selection="sale.product.category.icon.select"/>
+		<string name="name" title="Name" namecolumn="true"
+			required="true" unique="true" min="2" />
+		<string name="code" title="Code" required="true" unique="true"
+			min="2" />
+		<integer name="iconSelect" title="Icon"
+			selection="sale.product.category.icon.select" />
 
-  </entity>
+		<string name="fullName" title="Full Name" required="true"
+			namecolumn="true">
+	 	<![CDATA[
+	 		if (name == null || code == null)
+	 			return "";
+	 		return "[" + code + "]" + name;
+	 	 ]]>
+		</string>
+		<extra-code>
+            <![CDATA[
+                public static final int TYPE_PRESTATION = 0;
+                public static final int TYPE_PRODUCT = 1;
+            ]]>
+        </extra-code>
+	</entity>
 
 </domain-models>

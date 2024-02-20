@@ -9,17 +9,16 @@
     action="action.sale.show.all.sale.order"/>
   <action-view name="action.sale.show.all.sale.order" title="All sale order"
     model="com.axelor.sales.db.SaleOrder">
-    <view type="grid" name="sale-order-grid"/>
+    <view type="grid" name="sale-order-grid" />
     <view type="form" name="sale-order-form"/>
   </action-view>
 
   <menuitem name="sale-root-quotation-sale-orders" parent="sale-root"
-    title="Quotation sale orders" tag="0" tag-style="important"
+    title="Quotation sale orders" tag-count="true" tag-style="important"
     action="action.sale.show.quotation.sale.orders"/>
   <action-view name="action.sale.show.quotation.sale.orders"
     title="Quotation sale order" model="com.axelor.sales.db.SaleOrder">
-    <!-- <view type="grid" name="quotation-sale-order-grid" /> -->
-    <view type="grid" name="sale-order-grid"/>
+    <view type="grid" name="quotation-sale-order-grid"/>
     <view type="form" name="sale-order-form"/>
     <domain>self.statusSelect = 'quotation'</domain>
   </action-view>
@@ -37,7 +36,13 @@
   </action-view>
 
   <menuitem name="sale-root-configuration-product-categories-tree"
-    parent="sale-root-configuration" title="Product categories tree"/>
+    parent="sale-root-configuration" title="Product categories tree"
+    action="action.sale.show.product.categories.tree"/>
+  <action-view name="action.sale.show.product.categories.tree"
+    title="Products categories tree" model="com.axelor.sales.db.ProductCategory">
+    <view type="tree" name="product-category-tree"/>
+  </action-view>
+
 
   <menuitem name="sale-root-configuration-products" parent="sale-root-configuration"
     title="Product" action="action.sale.show.products"/>
@@ -53,8 +58,8 @@
     title="Sale order lines" action="action.sale.show.sale.order.line"/>
   <action-view name="action.sale.show.sale.order.line" title="Sale order line"
     model="com.axelor.sales.db.SaleOrderLine">
-    <view type="grid" name="sale-order-line-grid"/>
-    <view type="form" name="sale-order-line-form"/>
+    <view type="grid" name="sale-order-line-grid-from-menu"/>
+    <view type="form" name="sale-order-line-form-from-menu"/>
     <view-param name="search-filters" value="sale-order-sale-order-line-filter"/>
   </action-view>
 

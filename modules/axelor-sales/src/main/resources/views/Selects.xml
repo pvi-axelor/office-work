@@ -4,8 +4,8 @@
   xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
   <selection name="sale.product.category.icon.select">
-    <option value="0">Prestation</option>
-    <option value="1">Product</option>
+    <option value="0" icon="img/productCategory/storable.png">Prestation</option>
+    <option value="1" icon="img/productCategory/service.png">Product</option>
   </selection>
 
 </object-views>

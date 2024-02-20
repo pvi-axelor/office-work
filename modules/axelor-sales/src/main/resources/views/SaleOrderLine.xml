@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+  <grid model="com.axelor.sales.db.SaleOrderLine" title="Sale order lines"
+    name="sale-order-line-grid">
+
+    <field name="description"/>
+    <field name="quantity"/>
+    <field name="taxRate"/>
+    <field name="exTaxTotal"/>
+  </grid>
+
+  <grid model="com.axelor.sales.db.SaleOrderLine" title="Sale order lines"
+    name="sale-order-line-grid-from-menu" editable="false" canArchive="false" canDelete="false"
+    canNew="false" canSave="false" canEdit="false" groupBy="product.productCategory">
+
+    <field name="product"/>
+    <field name="description"/>
+
+
+    <field name="unitPriceUntaxed"/>
+    <field name="quantity" aggregate="sum"/>
+
+    <field name="taxRate"/>
+    <field name="exTaxTotal"/>
+
+    <field name="saleOrder"/>
+    <field name="saleOrder.statusSelect"/>
+
+    <field name="saleOrder.contact"/>
+    <field name="product.productCategory"/>
+  </grid>
+
+  <form model="com.axelor.sales.db.SaleOrderLine" title="Sale order line"
+    name="sale-order-line-form" width="mid">
+
+    <panel title="mainPanel" name="mainPanel" itemSpan="12">
+
+      <panel>
+        <help css="alert-info" showIf="product == null">
+          Please fill the product first
+        </help>
+      </panel>
+      <panel>
+        <field name="product" domain="self.unitPriceUntaxed > 0"/>
+        <field name="description" readonlyIf="product == null"/>
+
+        <field name="unitPriceUntaxed" readonlyIf="product == null"/>
+        <field name="quantity"/>
+
+        <field name="taxRate"/>
+        <field name="exTaxTotal" readonly="true"/>
+
+      </panel>
+    </panel>
+
+  </form>
+
+  <form model="com.axelor.sales.db.SaleOrderLine" title="Sale order line"
+    name="sale-order-line-form-from-menu" width="large" editable="false" canArchive="false"
+    canDelete="false" canNew="false" canSave="false" canEdit="false">
+
+	<panel-include view="sale-order-line-form"/>
+	
+    <panel sidebar="true" readonly="true">
+      <field name="saleOrder"/>
+      <field name="saleOrder.contact"/>
+      <field name="product.productCategory"/>
+    </panel>
+  </form>
+
+
+</object-views>

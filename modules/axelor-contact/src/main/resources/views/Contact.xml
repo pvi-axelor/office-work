@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+  <grid model="com.axelor.contact.db.Contact" title="Contact" name="contact-grid">
+
+    <field name="fullName"/>
+    <field name="birthDate"/>
+    <field name="email" />
+    <field name="phone" />
+    <field name="isSubjectToTaxes" />
+    <field name="address" />
+    <field name="archived" title="Archived"/>
+
+  </grid>
+
+  <form model="com.axelor.contact.db.Contact" title="Contact" name="contact-form" width="large">
+
+    <panel title="Profile" name="profilePanel">
+      <panel colSpan="3">
+        <field name="image" widget="image"/>
+      </panel>
+      <panel colSpan="9">
+        <field name="firstName" />
+        <field name="lastName" />
+
+        <field name="title" />
+        <field name="birthDate" />
+      </panel>
+    </panel>
+
+    <panel-tabs>
+      <panel title="Contact" name="contactPanel">
+        <field name="email" colSpan="3"/>
+        <field name="phone"  colSpan="3" widget="phone"/>
+        <field name="address" />
+      </panel>
+      <panel title="Other informations" name="otherInformationPanel">
+        <field name="isSubjectToTaxes" widget="boolean-switch"/>
+        <field name="familyContactSet" widget="TagSelect"/>
+      </panel>
+    </panel-tabs>
+
+    <panel-dashlet action="action-contact-sale-order-lines"
+      title="Related sale order details"/>
+
+    <panel-mail>
+      <mail-messages limit="5"/>
+      <mail-followers/>
+    </panel-mail>
+
+  </form>
+
+  <action-view name="action-contact-sale-order-lines"
+    title="Related sale order details" model="com.axelor.sales.db.SaleOrderLine">
+
+    <view type="grid" name="sale-order-line-grid-from-menu"/>
+    <domain>self.saleOrder.contact.fullName = :fullName</domain>
+    <context name="fullName" expr="fullName"/>
+
+  </action-view>
+  
+  <cards model="com.axelor.contact.db.Contact" title="Contact" name="contact-cards">
+    <field name="fullName"/>
+    <field name="image"/>
+    <field name="email"/>
+    <field name="phone"/>
+    <field name="address"/>
+
+
+    <template>
+		<![CDATA[
+
+			<div class="span5 card-image">
+				<strong>{{fullName}}</strong>
+				<br>
+				<img ngi-if="image" ng-src="{{ $image(null, 'image')}}">
+			</div>
+
+			<div class="span7">
+			      <br>
+			      <br>
+			      <i ng-if="phone" class="fa fa-phone">&nbsp;</i><a href="callto:{{phone}}">{{phone}}</a>
+			      <br>
+			      <i ng-if="email" class="fa fa-at">&nbsp;</i> <a href="mailto:{{email}}">{{email}}</a>
+			      <br>
+			     <i ng-if="address.fullname" class="fa fa-envelope">&nbsp;</i> {{address.fullname}}
+			      <br>
+			</div>
+		]]>
+    </template>
+
+  </cards>
+
+</object-views>

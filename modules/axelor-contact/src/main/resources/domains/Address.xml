@@ -9,15 +9,16 @@
 
   <entity name="Address">
 
+    <string name="numberAndStreet" title="N°/Street" required="true"/>
+    <string name="zip" title="Zip" required="true"/>
+    <string name="city" title="City" required="true"/>
+    <many-to-one ref="Country" name="country" title="Country" required="true"/>
+
     <string name="fullname" title="Name" namecolumn="true">
     <![CDATA[
     	return (numberAndStreet == null || zip == null || city == null) ? "" : String.format("%s %s %s", numberAndStreet, zip, city);
     ]]>
     </string>
-    <string name="numberAndStreet" title="N°/Street" required="true"/>
-    <string name="zip" title="Zip" required="true"/>
-    <string name="city" title="City" required="true"/>
-    <many-to-one ref="Country" name="country" title="Country" required="true"/>
 
   </entity>
 </domain-models>

@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <domain-models xmlns="http://axelor.com/xml/ns/domain-models"
   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
-  https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models   https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
+
 
   <module name="sales" package="com.axelor.sales.db"/>
 
@@ -14,8 +14,10 @@
     <decimal name="taxRate" title="Tax rate" required="true" min="0" default="0"/>
     <decimal name="unitPriceUntaxed" title="Unit price untaxed" required="true"/>
 
-    <many-to-one ref="Products" name="product" title="Product" required="true"/>
-    <many-to-one ref="SaleOrder" name="saleOrder" title="Sale Order" required="true"/>
+    <many-to-one ref="com.axelor.sales.db.Products" name="product" title="Product"
+      required="true"/>
+    <many-to-one ref="com.axelor.sales.db.SaleOrder" name="saleOrder" title="Sale Order"
+      required="true"/>
 
   </entity>
 

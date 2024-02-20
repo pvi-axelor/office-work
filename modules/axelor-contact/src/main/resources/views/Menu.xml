@@ -10,12 +10,22 @@
     action="action.contact.show.contacts"/>
   <action-view name="action.contact.show.contacts" title="Contacts"
     model="com.axelor.contact.db.Contact">
+    <view type="cards" name="contact-cards"/>
     <view type="grid" name="contact-grid"/>
     <view type="form" name="contact-form"/>
     <view-param name="showArchived" value="true"/>
   </action-view>
 
-  <menuitem name="contact-root-events" parent="contact-root" title="Events"/>
+  <menuitem name="contact-root-events" parent="contact-root" title="Events"
+    action="com.axelor.contact.show.event"/>
+  <action-view name="com.axelor.contact.show.event" title="Events"
+    model="com.axelor.contact.db.Event">
+    <view type="kanban" name="event-kanban"/>
+    <view type="calendar" name="event-calendar"/>
+    <view type="grid" name="event-grid"/>
+    <view type="form" name="event-form"/>
+    
+  </action-view>
 
   <menuitem name="contact-root-configuration" parent="contact-root" title="Configuration"
     icon="fa-gear"/>

@@ -19,7 +19,7 @@
     </string>
     <decimal name="unitPriceUntaxed" title="Unit price untaxed" required="true" min="0"/>
 
-    <many-to-one ref="ProductCategory" name="productCatergory" title="Product category"/>
+    <many-to-one ref="ProductCategory" name="productCategory" title="Product category"/>
     <binary name="image" title="Image"/>
 
   </entity>
