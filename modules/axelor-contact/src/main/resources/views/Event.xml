@@ -1,46 +1,48 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
   https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
-	<grid model="com.axelor.contact.db.Event" title="Events"
-		name="event-grid">
+  <grid model="com.axelor.contact.db.Event" title="Events" name="event-grid">
 
-		<field name="title" />
-		<field name="type" />
-		<field name="startDate" />
-		<field name="endDate" />
-		<field name="status" />
+    <field name="title"/>
+    <field name="type"/>
+    <field name="startDate"/>
+    <field name="endDate"/>
+    <field name="status"/>
 
-	</grid>
+  </grid>
 
-	<form model="com.axelor.contact.db.Event" title="Events"
-		name="event-form" width="large">
-		<panel name="mainPanel" title="mainPanel" itemSpan="4">
-			<field name="title" colSpan="4" />
-			<field name="statusSelect" widget="SingleSelect" />
-			<field name="typeSelect" />
-			<field name="plannedFor" />
-			<field name="startDate" />
-			<field name="endDate" />
-			<field name="notes" colSpan="12" />
-		</panel>
-	</form>
+  <form model="com.axelor.contact.db.Event" title="Events" name="event-form" width="large"
+    onSave="action-contact-validate-event-dates">
+    <panel name="mainPanel" title="mainPanel" itemSpan="4">
+      <field name="title" colSpan="4"/>
+      <field name="statusSelect" widget="SingleSelect"/>
+      <field name="typeSelect"/>
+      <field name="plannedFor"/>
+      <field name="startDate"/>
+      <field name="endDate"/>
+      <field name="notes" colSpan="12"/>
+    </panel>
+  </form>
 
-	<kanban columnBy="statusSelect"
-		model="com.axelor.contact.db.Event" sequenceBy="typeSelect"
-		title="Event" name="event-kanban" width="200px">
+  <action-validate name="action-contact-validate-event-dates">
+    <error message="Dates are incorrect" if="startDate >= endDate"/>
+  </action-validate>
 
-		<field name="title" />
-		<field name="statusSelect" />
-		<field name="typeSelect" />
-		<field name="plannedFor.fullName" />
-		<field name="plannedFor.email" />
-		<field name="plannedFor.phone" />
-		<field name="startDate" />
-		<field name="endDate" />
-		<template>
+  <kanban columnBy="statusSelect" model="com.axelor.contact.db.Event" sequenceBy="typeSelect"
+    title="Event" name="event-kanban" width="200px">
+
+    <field name="title"/>
+    <field name="statusSelect"/>
+    <field name="typeSelect"/>
+    <field name="plannedFor.fullName"/>
+    <field name="plannedFor.email"/>
+    <field name="plannedFor.phone"/>
+    <field name="startDate"/>
+    <field name="endDate"/>
+    <template>
 		<![CDATA[
 			<h4>{{title}}</h4></br>
 
@@ -57,14 +59,13 @@
                 <span>{{endDate|date:'YYYY-MM-DD HH:mm:ss'}}</span>
               </div>
 		]]>
-		</template>
-	</kanban>
+    </template>
+  </kanban>
 
 
-	<calendar name="event-calendar" title="Events"
-		model="com.axelor.contact.db.Event" colorBy="typeSelect"
-		eventStart="startDate" eventStop="endDate" eventLength="1">
-		<field name="typeSelect" />
-	</calendar>
+  <calendar name="event-calendar" title="Events" model="com.axelor.contact.db.Event"
+    colorBy="typeSelect" eventStart="startDate" eventStop="endDate" eventLength="1">
+    <field name="typeSelect"/>
+  </calendar>
 
 </object-views>

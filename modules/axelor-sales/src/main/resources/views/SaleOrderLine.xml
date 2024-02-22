@@ -29,12 +29,16 @@
     <field name="saleOrder"/>
     <field name="saleOrder.statusSelect"/>
 
-    <field name="saleOrder.contact"/>
+    <field name="saleOrder.customer"/>
     <field name="product.productCategory"/>
   </grid>
 
+
+
+
   <form model="com.axelor.sales.db.SaleOrderLine" title="Sale order line"
-    name="sale-order-line-form" width="mid">
+    name="sale-order-line-form" width="mid" onNew="action-sale-order-line-new-item"
+    onLoad="action-sale-order-line-load-item">
 
     <panel title="mainPanel" name="mainPanel" itemSpan="12">
 
@@ -44,11 +48,13 @@
         </help>
       </panel>
       <panel>
-        <field name="product" domain="self.unitPriceUntaxed > 0"/>
+        <field name="product" domain="self.unitPriceUntaxed > 0"
+          onChange="action-sale-order-line-set-description"/>
         <field name="description" readonlyIf="product == null"/>
 
-        <field name="unitPriceUntaxed" readonlyIf="product == null"/>
-        <field name="quantity"/>
+        <field name="unitPriceUntaxed" readonlyIf="product == null"
+          onChange="action-sale-order-line-set-price-before-tax"/>
+        <field name="quantity" onChange="action-sale-order-line-set-price-before-tax"/>
 
         <field name="taxRate"/>
         <field name="exTaxTotal" readonly="true"/>
@@ -58,18 +64,48 @@
 
   </form>
 
+
+
+
+  <action-attrs name="action-sale-order-line-new-item">
+    <attribute for="taxRate" name="value:set" expr="0.2" if="id == null"/>
+    <attribute name="hidden" for="taxRate" expr="true"
+      if="__parent__.customer.isSubjectToTaxes == false"/>
+  </action-attrs>
+
+  <action-attrs name="action-sale-order-line-load-item">
+    <attribute name="hidden" for="taxRate" expr="true"
+      if="__parent__.customer.isSubjectToTaxes == false"/>
+  </action-attrs>
+
+  <action-record name="action-sale-order-line-set-description"
+    model="com.axelor.sales.db.SaleOrderLine">
+    <field name="description" expr="eval: product.name" if="product != null"/>
+    <field name="unitPriceUntaxed" expr="eval: product.unitPriceUntaxed" if="product != null"/>
+    <field name="exTaxTotal" expr="eval: unitPriceUntaxed * quantity"/>
+  </action-record>
+
+  <action-record name="action-sale-order-line-set-price-before-tax"
+    model="com.axelor.sales.db.SaleOrderLine">
+    <field name="exTaxTotal" expr="eval: unitPriceUntaxed * quantity"/>
+  </action-record>
+
+
+
   <form model="com.axelor.sales.db.SaleOrderLine" title="Sale order line"
     name="sale-order-line-form-from-menu" width="large" editable="false" canArchive="false"
     canDelete="false" canNew="false" canSave="false" canEdit="false">
 
-	<panel-include view="sale-order-line-form"/>
-	
+    <panel-include view="sale-order-line-form"/>
+
     <panel sidebar="true" readonly="true">
       <field name="saleOrder"/>
-      <field name="saleOrder.contact"/>
+      <field name="saleOrder.customer"/>
       <field name="product.productCategory"/>
     </panel>
   </form>
+
+
 
 
 </object-views>

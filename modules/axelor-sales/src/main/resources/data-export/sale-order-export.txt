@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sale-orders>
+<%
+// A simplifier
+__ids__.each({ u = com.axelor.inject.Beans.get('com.axelor.sales.db.repo.SaleOrderRepository'
+as Class).find(it)
+out <<
+"""
+<sale-order>
+<sequence>${u.saleOrderSeq}</sequence>
+<customer>${u.customer}</customer>
+<in-tax-total>${u.inTaxTotal}</in-tax-total>
+<quotation-date>${u.quotationDateT}</quotation-date>
+<confirmation-date>${u.quotationDateT}</confirmation-date>
+</sale-order>
+"""
+}) %>
+</sale-orders>

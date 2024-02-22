@@ -8,13 +8,29 @@
 
     <field name="fullName"/>
     <field name="birthDate"/>
-    <field name="email" />
-    <field name="phone" />
-    <field name="isSubjectToTaxes" />
-    <field name="address" />
+    <field name="email"/>
+    <field name="phone"/>
+    <field name="isSubjectToTaxes"/>
+    <field name="address"/>
     <field name="archived" title="Archived"/>
 
+    <button onClick="action-contact-fetch-current-contact-sale-order-lines-popup"
+      name="addSaleOrderBtn" title="Sale Orders" icon="fa-align-left"/>
+
   </grid>
+
+  <action-view name="action-contact-fetch-current-contact-sale-order-lines-popup"
+    title="Related sale order details" model="com.axelor.sales.db.SaleOrderLine">
+
+    <view type="grid" name="sale-order-line-grid"/>
+    <view-param name="popup" value="true"/>
+    <view-param name="limit" value="20"/>
+    <domain>self.saleOrder.contact = :currentRecord</domain>
+    <context name="currentRecord" expr="eval: __self__"/>
+  </action-view>
+
+
+
 
   <form model="com.axelor.contact.db.Contact" title="Contact" name="contact-form" width="large">
 
@@ -23,20 +39,22 @@
         <field name="image" widget="image"/>
       </panel>
       <panel colSpan="9">
-        <field name="firstName" />
-        <field name="lastName" />
+        <field name="firstName"/>
+        <field name="lastName"/>
 
-        <field name="title" />
-        <field name="birthDate" />
+        <field name="title"/>
+
+        <field name="birthDate" onChange="action-contact-check-date-of-birth"/>
       </panel>
     </panel>
 
     <panel-tabs>
       <panel title="Contact" name="contactPanel">
         <field name="email" colSpan="3"/>
-        <field name="phone"  colSpan="3" widget="phone"/>
-        <field name="address" />
+        <field name="phone" colSpan="3" widget="phone"/>
+        <field name="address"/>
       </panel>
+
       <panel title="Other informations" name="otherInformationPanel">
         <field name="isSubjectToTaxes" widget="boolean-switch"/>
         <field name="familyContactSet" widget="TagSelect"/>
@@ -53,15 +71,25 @@
 
   </form>
 
-  <action-view name="action-contact-sale-order-lines"
-    title="Related sale order details" model="com.axelor.sales.db.SaleOrderLine">
+  <action-condition name="action-contact-check-date-of-birth">
+    <check field="birthDate" if="birthDate &lt; LocalDate.of(1930, 1, 1)"
+      error="Should be &gt; to 1930"/>
+  </action-condition>
+
+  <action-view name="action-contact-sale-order-lines" title="Related sale order details"
+    model="com.axelor.sales.db.SaleOrderLine">
 
     <view type="grid" name="sale-order-line-grid-from-menu"/>
-    <domain>self.saleOrder.contact.fullName = :fullName</domain>
+    <view-param name="popup" value="true"/>
+    <domain>self.saleOrder.customer.fullName = :fullName</domain>
     <context name="fullName" expr="fullName"/>
 
   </action-view>
-  
+
+
+
+
+
   <cards model="com.axelor.contact.db.Contact" title="Contact" name="contact-cards">
     <field name="fullName"/>
     <field name="image"/>

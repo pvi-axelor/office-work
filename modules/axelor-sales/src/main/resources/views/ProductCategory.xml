@@ -1,49 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
 	 https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
-	<grid model="com.axelor.sales.db.ProductCategory"
-		title="Product categories" name="product-category-grid">
+  <grid model="com.axelor.sales.db.ProductCategory" title="Product categories"
+    name="product-category-grid">
 
-		<field name="iconSelect" widget="ImageSelect" />
-		<field name="fullName" />
-		<field name="name" />
-		<field name="code" />
-	</grid>
+    <field name="iconSelect" widget="ImageSelect"/>
+    <field name="fullName"/>
+    <field name="name"/>
+    <field name="code"/>
+  </grid>
 
-	<form model="com.axelor.sales.db.ProductCategory"
-		title="Product category" name="product-category-form" width="large">
+  <form model="com.axelor.sales.db.ProductCategory" title="Product category"
+    name="product-category-form" width="large">
+    <panel title="mainPanel" name="mainPanel">
+      <field name="iconSelect" widget="image-select"/>
+      <field name="name"/>
+      <field name="code"/>
+    </panel>
+  </form>
 
-		<panel title="mainPanel" name="mainPanel">
+  <tree name="product-category-tree" title="Product category tree">
 
-			<field name="iconSelect" widget="image-select" />
-			<field name="name" />
-			<field name="code" />
+    <column name="iconSelect" widget="image-select" type="integer"/>
+    <column name="code" type="string"/>
+    <column name="name" type="string"/>
 
-		</panel>
+    <node model="com.axelor.sales.db.ProductCategory">
+      <field name="iconSelect" as="iconSelect"/>
+      <field name="name" as="name"/>
+      <field name="code" as="code"/>
+    </node>
 
-	</form>
+    <node model="com.axelor.sales.db.Products" parent="productCategory" draggable="false"
+      onClick="action-product-category-view-product-details">
 
-	<tree name="product-category-tree" title="Product category tree">
+      <field name="name" as="name"/>
+      <field name="code" as="code"/>
+    </node>
 
-		<column name="iconSelect" widget="image-select" type="integer" />
-		<column name="code" type="string" />
-		<column name="name" type="string" />
+  </tree>
 
-		<node model="com.axelor.sales.db.ProductCategory">
-			<field name="iconSelect" as="iconSelect" />
-			<field name="name" as="name" />
-			<field name="code" as="code" />
-		</node>
+  <action-view name="action-product-category-view-product-details" title=""
+    model="com.axelor.sales.db.Products">
 
-		<node model="com.axelor.sales.db.Products"
-			parent="productCategory" draggable="false">
-			<field name="name" as="name" />
-			<field name="code" as="code" />
-		</node>
+    <view type="grid" name="products-grid"/>
+    <view-param name="popup" value="true"/>
+    <domain>self.id = :id</domain>
+    <context name="id" expr="eval: __self__.id"/>
 
-	</tree>
+  </action-view>
 
 </object-views>

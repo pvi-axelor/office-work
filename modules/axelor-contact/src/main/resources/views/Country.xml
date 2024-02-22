@@ -7,17 +7,18 @@
   <grid model="com.axelor.contact.db.Country" title="Countries" name="country-grid">
 
     <field name="name"/>
-    <field name="code" />
+    <field name="code"/>
 
   </grid>
 
   <form model="com.axelor.contact.db.Country" title="Country" name="country-form" width="large">
 
     <panel title="Country" name="countryPanel">
-      <field name="name" />
-      <field name="code" />
+      <field name="name"/>
+      <field name="code"/>
     </panel>
 
   </form>
+
 
 </object-views>

@@ -9,7 +9,7 @@
     action="action.sale.show.all.sale.order"/>
   <action-view name="action.sale.show.all.sale.order" title="All sale order"
     model="com.axelor.sales.db.SaleOrder">
-    <view type="grid" name="sale-order-grid" />
+    <view type="grid" name="sale-order-grid"/>
     <view type="form" name="sale-order-form"/>
   </action-view>
 

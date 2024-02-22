@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<domain-models
-	xmlns="http://axelor.com/xml/ns/domain-models"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
+<domain-models xmlns="http://axelor.com/xml/ns/domain-models"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/domain-models
   https://axelor.com/xml/ns/domain-models/domain-models_6.0.xsd">
 
-	<module name="contact" package="com.axelor.contact.db" />
+  <module name="contact" package="com.axelor.contact.db"/>
 
-	<entity name="Event">
+  <entity name="Event">
 
-		<string name="title" title="Title" required="true"
-			namecolumn="true" />
-		<datetime name="startDate" title="Start date" required="true" />
-		<datetime name="endDate" title="End date" required="true" />
-		<integer name="statusSelect" title="Status" required="true"
-			selection="contact.event.status.select" />
-		<integer name="typeSelect" title="Type" required="true"
-			selection="contact.event.type.select" />
-		<string name="notes" title="Notes" large="true" />
-		<many-to-one ref="com.axelor.contact.db.Contact"
-			name="plannedFor" title="Planned for" required="true" />
+    <string name="title" title="Title" required="true" namecolumn="true"/>
+    <datetime name="startDate" title="Start date" required="true"/>
+    <datetime name="endDate" title="End date" required="true"/>
+    <integer name="statusSelect" title="Status" required="true"
+      selection="contact.event.status.select"/>
+    <integer name="typeSelect" title="Type" required="true"
+      selection="contact.event.type.select"/>
+    <string name="notes" title="Notes" large="true"/>
+    <many-to-one ref="com.axelor.contact.db.Contact" name="plannedFor"
+      title="Planned for" required="true"/>
 
-		<extra-code>
+    <extra-code>
         <![CDATA[
             public static final int STATUS_DRAFT = 0;
             public static final int STATUS_PROPOSED = 1;
@@ -31,14 +29,14 @@
             public static final int STATUS_POSTPONED = 5;
             public static final int STATUS_REFUSED = 6;
             public static final int STATUS_CANCELLED= 7;
-            
-            
+
+
             public static final int TYPE_OTHER = 0;
             public static final int TYPE_PHONE_CALL = 1;
             public static final int TYPE_MEETING = 2;
-            
-        ]]>
-        </extra-code>
 
-	</entity>
+        ]]>
+    </extra-code>
+
+  </entity>
 </domain-models>

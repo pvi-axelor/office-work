@@ -7,18 +7,19 @@
 
   <grid model="com.axelor.contact.db.Title" title="Titles" name="title-grid" editable="true">
 
-    <field name="code" />
-    <field name="name" />
+    <field name="code"/>
+    <field name="name"/>
 
   </grid>
 
   <form model="com.axelor.contact.db.Title" title="Title" name="title-form">
 
     <panel title="Title" name="titlePanel">
-      <field name="code" />
-      <field name="name" />
+      <field name="code"/>
+      <field name="name"/>
     </panel>
 
   </form>
+
 
 </object-views>
