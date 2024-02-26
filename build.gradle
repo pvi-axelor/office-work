@@ -30,6 +30,7 @@ allprojects {
 dependencies {
     implementation project(':modules:axelor-contact')
     implementation project(':modules:axelor-sales')
+    implementation project(':modules:axelor-invoice')
 
 }
 

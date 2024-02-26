@@ -25,7 +25,7 @@
                 public static final int TYPE_PRESTATION = 0;
                 public static final int TYPE_PRODUCT = 1;
             ]]>
-        </extra-code>
-	</entity>
+    </extra-code>
+  </entity>
 
 </domain-models>

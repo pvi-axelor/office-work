@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+  <menuitem title="Invoice" name="invoice-root" icon-background="#ff5722" icon="fa fa-file"
+    order="-1"/>
+
+  <menuitem title="Invoice" name="invoice-root-invoice" parent="invoice-root"
+    action="action.invoice.show.invoices"/>
+  <action-view name="action.invoice.show.invoices" title="Invoices"
+    model="com.axelor.invoice.db.Invoice">
+    <view type="grid" name="invoice-grid"/>
+    <view type="form" name="invoice-form"/>
+  </action-view>
+
+  <menuitem title="Data" name="invoice-root-data" parent="invoice-root"
+    icon="fa fa-database"/>
+
+  <menuitem title="Invoice line" name="invoice-root-data-invoice-line"
+    parent="invoice-root-data" action="action.invoice.line.show.invoice.lines"/>
+  <action-view name="action.invoice.line.show.invoice.lines" title="Invoice Line"
+    model="com.axelor.invoice.db.InvoiceLine">
+    <view type="grid" name="invoice-line-grid"/>
+    <view type="form" name="invoice-line-form"/>
+    <context name="from_menu" expr="true"/>
+  </action-view>
+
+</object-views>

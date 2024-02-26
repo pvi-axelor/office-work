@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<object-views xmlns="http://axelor.com/xml/ns/object-views"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+
+  <grid model="com.axelor.invoice.db.InvoiceLine" title="Invoice Lines"
+    name="invoice-line-grid">
+    <field name="description"/>
+    <field name="quantity"/>
+    <field name="exTaxTotal"/>
+    <field name="inTaxTotal"/>
+    <field name="taxRate"/>
+    <field name="unitPriceUntaxed"/>
+    <field name="product"/>
+  </grid>
+
+
+  <form model="com.axelor.invoice.db.InvoiceLine" title="Invoice Line" name="invoice-line-form"
+    width="large" onNew="action-invoice-line-form-load" readonlyIf="from_menu" >
+
+    <panel title="Overview" name="overviewPanel">
+      <field name="product"
+        onChange="action-invoice-line-description-and-price,action-invoice-line-calculate-total"/>
+      <field name="description"/>
+      <field name="unitPriceUntaxed" onChange="action-invoice-line-calculate-total"/>
+      <field name="quantity" onChange="action-invoice-line-calculate-total"/>
+      <field name="taxRate" onChange="action-invoice-line-calculate-total"/>
+      <field name="exTaxTotal"/>
+    </panel>
+  </form>
+
+
+  <action-method name="action-invoice-line-form-load">
+    <call class="com.axelor.invoice.web.InvoiceLineController" method="setTaxes"/>
+  </action-method>
+
+  <action-method name="action-invoice-line-description-and-price">
+    <call class="com.axelor.invoice.web.InvoiceLineController"
+      method="setDescriptionAndUntaxedPrice"/>
+  </action-method>
+
+  <action-method name="action-invoice-line-calculate-total">
+    <call class="com.axelor.invoice.web.InvoiceLineController" method="calculateTotal"/>
+  </action-method>
+  
+</object-views>
