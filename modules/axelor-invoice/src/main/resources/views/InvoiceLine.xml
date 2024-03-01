@@ -16,7 +16,7 @@
 
 
   <form model="com.axelor.invoice.db.InvoiceLine" title="Invoice Line" name="invoice-line-form"
-    width="large" onNew="action-invoice-line-form-load" readonlyIf="from_menu" >
+    width="large" onNew="action-invoice-line-form-load" readonlyIf="from_menu">
 
     <panel title="Overview" name="overviewPanel">
       <field name="product"
@@ -27,6 +27,7 @@
       <field name="taxRate" onChange="action-invoice-line-calculate-total"/>
       <field name="exTaxTotal"/>
     </panel>
+
   </form>
 
 
@@ -42,5 +43,5 @@
   <action-method name="action-invoice-line-calculate-total">
     <call class="com.axelor.invoice.web.InvoiceLineController" method="calculateTotal"/>
   </action-method>
-  
+
 </object-views>

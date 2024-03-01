@@ -24,6 +24,11 @@
       required="true"/>
     <many-to-one ref="com.axelor.sales.db.SaleOrder" name="saleOrder" title="Sale order"/>
 
+    <many-to-one ref="com.axelor.invoice.db.Invoice" name="generatedInvoice"
+      title="Invoice"/>
+    <one-to-many ref="com.axelor.invoice.db.Invoice" name="mergedInvoiceList"
+      title="Invoice" mappedBy="generatedInvoice"/>
+
 
     <extra-code>
         <![CDATA[

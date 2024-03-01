@@ -1,110 +1,180 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <object-views xmlns="http://axelor.com/xml/ns/object-views"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://axelor.com/xml/ns/object-views https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://axelor.com/xml/ns/object-views
+	https://axelor.com/xml/ns/object-views/object-views_6.0.xsd">
 
-	<grid model="com.axelor.invoice.db.Invoice" title="Invoices"
-		name="invoice-grid">
-		<field name="invoiceSeq" />
-		<field name="invoiceDateT" />
-		<field name="exTaxTotal" />
-		<field name="inTaxTotal" />
-		<field name="statusSelect" />
-		<field name="customer" />
-	</grid>
+  <grid model="com.axelor.invoice.db.Invoice" title="Invoices" name="invoice-grid">
+    <toolbar>
+      <button onClick="action-invoice-cancel-invoices-group" name="cancelInvoicesBtn"
+        title="Cancel invoice(s)" icon="fa-close"/>
+      <button onClick="action-invoice-merge-invoices" name="mergeInvoicesBtn" title="Merge"/>
+    </toolbar>
+    <field name="invoiceSeq"/>
+    <field name="invoiceDateT"/>
+    <field name="exTaxTotal"/>
+    <field name="inTaxTotal"/>
+    <field name="statusSelect"/>
+    <field name="customer"/>
+  </grid>
 
-	<form model="com.axelor.invoice.db.Invoice" title="Invoice"
-		name="invoice-form" onNew="action-invoice-set-invoice-date-time"
-		onSave="action-invoice-calculate-total">
+  <action-group name="action-invoice-cancel-invoices-group">
+    <action name="action-invoice-validate-selection"/>
+    <action name="action-invoice-cancel-selected"/>
+  </action-group>
 
-		<panel name="mainPanel">
-			<field name="statusSelect" widget="NavSelect" colSpan="12" />
-			<field name="invoiceSeq" />
-			<field name="customer" readonlyIf="invoiceLineList != null" />
+  <action-validate name="action-invoice-validate-selection">
+    <error message="Please select at least one invoice " if="__ids__ == null"/>
+    <alert
+      message="Do you really want to cancel the selected invoice(s)? Ventilated invoices will be not cancelled!"/>
+  </action-validate>
 
-			<panel-related field="invoiceLineList" colSpan="12"
-				grid-view="invoice-line-grid" form-view="invoice-line-form"
-				readonlyIf="customer == null || statusSelect == 2" />
-		</panel>
+  <action-method name="action-invoice-cancel-selected">
+    <call class="com.axelor.invoice.web.InvoiceController" method="cancelSelectedInvoices"/>
+  </action-method>
 
-		<panel sidebar="true" name="buttonPanel" itemSpan="12">
-			<button onClick="action-invoice-validate-form"
-				name="validateInvoiceBtn" title="Validate"
-				showIf="statusSelect == 0" />
-				
-			<button onClick="action-invoice-ventilate-form"
-				name="validateInvoiceBtn" title="Ventilate"
-				showIf="statusSelect == 1" />
-			
-			<button onClick="action-invoice-cancel-form"
-				name="cancelOrderBtn" title="Cancel Order" css="btn-danger"
-				hideIf="statusSelect == 3" />
-		</panel>
-
-		<panel title="Dates" name="datesPanel" canCollapse="true"
-			sidebar="true">
-			<field name="invoiceDateT" readonly="true" />
-		</panel>
-
-		<panel title="Prices" name="pricesPanel" canCollapse="true"
-			sidebar="true">
-			<field name="exTaxTotal" readonly="true" />
-			<field name="inTaxTotal" readonly="true" />
-		</panel>
-
-	</form>
-
-	<action-method
-		name="action-invoice-set-invoice-date-time">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="setInvoiceDateTime" />
-	</action-method>
-
-
-	<action-group name="action-invoice-calculate-total">
-		<action name="action-invoice-total-with-tax" />
-		<action name="action-invoice-total-without-tax" />
-	</action-group>
-
-	<action-method name="action-invoice-total-with-tax">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="priceWithTaxTotal" />
-	</action-method>
-
-	<action-method name="action-invoice-total-without-tax">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="priceWithoutTaxTotal" />
-	</action-method>
+  <action-view name="action-invoice-merge-invoices" title="Merge Invoices"
+    model="com.axelor.invoice.db.Invoice">
+    <view type="form" name="customer-invoices-merge-form"/>
+    <view-param name="popup" value="true"/>
+    <view-param name="popup-reload" value="true"/>
+    <view-param name="popup-save" value="false"/>
+    <view-param name="show-confirm" value="false"/>
+    <view-param name="show-toolbar" value="false"/>
+  </action-view>
 
 
 
 
-	<action-method name="action-invoice-validate-form">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="validateInvoice" />
-	</action-method>
-
-	<action-method name="action-invoice-ventilate-form">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="ventilateInvoice" />
-	</action-method>
 
 
 
 
-	<action-group name="action-invoice-cancel-form">
-		<action name="action-invoice-cancel-alert" />
-		<action name="action-set-status-cancel" />
-	</action-group>
 
-	<action-method name="action-invoice-cancel-alert">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="cancelInvoice" />
-	</action-method>
 
-	<action-method name="action-set-status-cancel">
-		<call class="com.axelor.invoice.web.InvoiceController"
-			method="setStatusCancel" />
-	</action-method>
+
+  <form model="com.axelor.invoice.db.Invoice" title="Merge Invoices"
+    name="customer-invoices-merge-form" extension="false">
+
+    <panel-related field="$mergeField" type="many-to-many"
+      target="com.axelor.invoice.db.Invoice" name="mergeInvoicePopupPanel" grid-view="invoice-grid"
+      canNew="false" canEdit="false" canSelect="true" domain="self.statusSelect = 0"/>
+
+    <panel sidebar="true">
+      <button onClick="action-invoice-merge-invoice-group" name="mergeInvoicesBtn"
+        title="Merge into single invoice"/>
+    </panel>
+
+  </form>
+
+  <action-group name="action-invoice-merge-invoice-group">
+    <action name="action-invoice-merge-validation"/>
+    <action name="action-invoice-merge-selected-invoices"/>
+  </action-group>
+
+  <action-validate name="action-invoice-merge-validation">
+    <error message="You have to choose at least two invoices."
+      if="mergeField == null || mergeField.size() &lt; 2"/>
+  </action-validate>
+
+  <action-method name="action-invoice-merge-selected-invoices"
+    model="com.axelor.invoice.db.Invoice">
+    <call class="com.axelor.invoice.web.InvoiceController" method="mergeInvoices"/>
+  </action-method>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  <form model="com.axelor.invoice.db.Invoice" title="Invoice" name="invoice-form"
+    onNew="action-invoice-set-invoice-date-time" onSave="action-invoice-calculate-total">
+
+    <panel name="mainPanel">
+      <field name="statusSelect" widget="NavSelect" colSpan="12"/>
+      <field name="invoiceSeq"/>
+      <field name="customer"
+        readonlyIf="invoiceLineList != null &amp;&amp; invoiceLineList.length &gt; 0"/>
+
+
+      <panel-related field="invoiceLineList" colSpan="12"
+        grid-view="invoice-line-grid" form-view="invoice-line-form"
+        readonlyIf="customer == null || statusSelect == 2"/>
+    </panel>
+
+    <panel sidebar="true" name="buttonPanel" itemSpan="12">
+      <button onClick="action-invoice-validate-form" name="validateInvoiceBtn"
+        title="Validate" showIf="statusSelect == 0"/>
+
+      <button onClick="action-invoice-ventilate-form" name="validateInvoiceBtn"
+        title="Ventilate" showIf="statusSelect == 1"/>
+
+      <button onClick="action-invoice-cancel-form" name="cancelOrderBtn" title="Cancel Order"
+        css="btn-danger" hideIf="statusSelect == 3"/>
+    </panel>
+
+    <panel title="Dates" name="datesPanel" canCollapse="true" sidebar="true">
+      <field name="invoiceDateT" readonly="true"/>
+    </panel>
+
+    <panel title="Prices" name="pricesPanel" canCollapse="true" sidebar="true">
+      <field name="exTaxTotal" readonly="true"/>
+      <field name="inTaxTotal" readonly="true"/>
+    </panel>
+
+  </form>
+
+  <action-method name="action-invoice-set-invoice-date-time">
+    <call class="com.axelor.invoice.web.InvoiceController" method="setInvoiceDateTime"/>
+  </action-method>
+
+
+  <action-group name="action-invoice-calculate-total">
+    <action name="action-invoice-total-with-tax"/>
+    <action name="action-invoice-total-without-tax"/>
+  </action-group>
+
+  <action-method name="action-invoice-total-with-tax">
+    <call class="com.axelor.invoice.web.InvoiceController" method="priceWithTaxTotal"/>
+  </action-method>
+
+  <action-method name="action-invoice-total-without-tax">
+    <call class="com.axelor.invoice.web.InvoiceController" method="priceWithoutTaxTotal"/>
+  </action-method>
+
+
+
+
+  <action-method name="action-invoice-validate-form">
+    <call class="com.axelor.invoice.web.InvoiceController" method="validateInvoice"/>
+  </action-method>
+
+  <action-method name="action-invoice-ventilate-form">
+    <call class="com.axelor.invoice.web.InvoiceController" method="ventilateInvoice"/>
+  </action-method>
+
+
+
+
+  <action-group name="action-invoice-cancel-form">
+    <action name="action-invoice-cancel-alert"/>
+    <action name="action-set-status-cancel"/>
+  </action-group>
+
+  <action-method name="action-invoice-cancel-alert">
+    <call class="com.axelor.invoice.web.InvoiceController" method="cancelInvoice"/>
+  </action-method>
+
+  <action-method name="action-set-status-cancel">
+    <call class="com.axelor.invoice.web.InvoiceController" method="setStatusCancel"/>
+  </action-method>
 
 </object-views>
